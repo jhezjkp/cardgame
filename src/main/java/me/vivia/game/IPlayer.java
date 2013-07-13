@@ -24,7 +24,7 @@ public interface IPlayer {
 	 *            是否允许超过上限
 	 * @return 最新的体力值
 	 */
-	int gainEnery(int value, boolean allowExceed);
+	int gainEnergy(int value, boolean allowExceed);
 
 	/**
 	 * 扣除体力点

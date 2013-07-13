@@ -59,7 +59,12 @@
 			<artifactId>commons-codec</artifactId>
 			<version>${commons-codec-version}</version>
 		</dependency>
-
+		<!-- clojure -->
+		<dependency>
+			<groupId>org.clojure</groupId>
+			<artifactId>clojure</artifactId>
+			<version>${clojure-version}</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -102,6 +107,7 @@
 		<slf4j-version>1.6.1</slf4j-version>
 		<commons-io-version>2.0.1</commons-io-version>
 		<log4j-version>1.2.16</log4j-version>
+		<clojure-version>1.5.1</clojure-version>
 	</properties>
 
 	<repositories>

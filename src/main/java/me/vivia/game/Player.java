@@ -19,7 +19,7 @@ public class Player implements IPlayer {
 	}
 
 	@Override
-	public int gainEnery(int value, boolean allowExceed) {
+	public int gainEnergy(int value, boolean allowExceed) {
 		energy += Math.abs(value);
 		if (energy > Const.MAX_ENERGY && !allowExceed) {
 			energy = Const.MAX_ENERGY;

@@ -43,13 +43,13 @@ public class PlayerTest {
 		Field field = FieldUtils.getDeclaredField(Player.class, "energy", true);
 		field.set(player, energy);
 
-		assertEquals(energy + gainValue1, player.gainEnery(gainValue1, false));
+		assertEquals(energy + gainValue1, player.gainEnergy(gainValue1, false));
 
 		assertEquals(Const.MAX_ENERGY,
-				player.gainEnery(Const.MAX_ENERGY, false));
+				player.gainEnergy(Const.MAX_ENERGY, false));
 
 		assertEquals(Const.MAX_ENERGY + gainValue2,
-				player.gainEnery(gainValue2, true));
+				player.gainEnergy(gainValue2, true));
 	}
 
 	@Test(expected = IllegalStateException.class)
