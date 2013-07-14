@@ -2,7 +2,6 @@ package me.vivia.game.props;
 
 import me.vivia.game.common.ItemUseTarget;
 import me.vivia.game.common.Quality;
-import clojure.lang.IFn;
 
 /**
  * 道具模板
@@ -15,15 +14,15 @@ public class ItemT extends PropsT {
 	/** 使用对象 */
 	private ItemUseTarget target;
 	/** 最大堆叠数 */
-	private int stackQuantity;
+	private int maxStackQuantity;
 	/** 使用效果函数 */
 	private ItemEffect effect;
 
 	public ItemT(int id, String name, String desc, Quality quality,
-			int stackQuantity, ItemUseTarget target, ItemEffect effect, int icon) {
+			int maxStackQuantity, ItemUseTarget target, ItemEffect effect, int icon) {
 		super(id, name, desc, quality, icon);
 		this.target = target;
-		this.stackQuantity = stackQuantity;
+		this.maxStackQuantity = maxStackQuantity;
 		this.effect = effect;
 	}
 
@@ -31,8 +30,8 @@ public class ItemT extends PropsT {
 		return target;
 	}
 
-	public int getStackQuantity() {
-		return stackQuantity;
+	public int getMaxStackQuantity() {
+		return maxStackQuantity;
 	}
 
 	public ItemEffect getEffect() {
