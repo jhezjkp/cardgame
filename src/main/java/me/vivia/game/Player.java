@@ -54,6 +54,8 @@ public class Player implements IPlayer {
 		if (energy > Const.MAX_ENERGY && !allowExceed) {
 			energy = Const.MAX_ENERGY;
 		}
+		// 通知客户端体力变更
+		logger.info("client notify:\tenergy " + energy);
 		return energy;
 	}
 
@@ -63,6 +65,8 @@ public class Player implements IPlayer {
 			throw new IllegalStateException("体力不足！");
 		}
 		energy -= value;
+		// 通知客户端体力变更
+		logger.info("client notify:\tenergy " + energy);
 		return energy;
 	}
 

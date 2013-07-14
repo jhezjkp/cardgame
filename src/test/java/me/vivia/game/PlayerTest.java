@@ -37,6 +37,7 @@ public class PlayerTest {
 	@Test
 	public void testGainEnery() throws IllegalArgumentException,
 			IllegalAccessException {
+		// 测试获得体力
 		int energy = 100;
 		int gainValue1 = 10;
 		int gainValue2 = 200;
@@ -54,11 +55,13 @@ public class PlayerTest {
 
 	@Test(expected = IllegalStateException.class)
 	public void testDeductEnergy_throwException() {
+		// 测试过量扣除体力
 		player.deductEnergy(Const.MAX_ENERGY * 2);
 	}
 
 	@Test
 	public void testDeductEnergy() {
+		// 测试正常扣除体力
 		int deductValue = 10;
 		assertEquals(Const.MAX_ENERGY - deductValue,
 				player.deductEnergy(deductValue));
