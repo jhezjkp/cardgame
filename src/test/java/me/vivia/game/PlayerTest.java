@@ -108,5 +108,12 @@ public class PlayerTest {
 		assertNotNull(existItem);
 		assertEquals(templateId, existItem.getTemplateId());
 		assertEquals(3, existItem.getQuantity());
+		
+		//增加银两
+		int money = 10000;
+		item = new Item(random.nextLong(), Const.TEMPLATE_ID_MONEY, money);
+		newId = packController.addProps(item);
+		assertEquals(-1, newId);
+		assertEquals(money, player.getMoney());
 	}
 }

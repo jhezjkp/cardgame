@@ -38,6 +38,31 @@ public interface IPlayer {
 	int deductEnergy(int value) throws IllegalStateException;
 
 	/**
+	 * 获取银两数额
+	 * 
+	 * @return
+	 */
+	long getMoney();
+
+	/**
+	 * 获得银两
+	 * 
+	 * @param value
+	 * @return
+	 */
+	long gainMoney(long value);
+
+	/**
+	 * 扣除银两
+	 * 
+	 * @param value
+	 * @return
+	 * @throws IllegalStateException
+	 *             如果扣除指定数值后最终的银两数额为负将抛出该异常
+	 */
+	long deductMoney(long value) throws IllegalStateException;
+
+	/**
 	 * 获取背包控制器
 	 * 
 	 * @return

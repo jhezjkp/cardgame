@@ -19,8 +19,10 @@ public class Player implements IPlayer {
 
 	private Logger logger = LoggerFactory.getLogger(Player.class);
 
-	/** 体力值 */
+	/** 体力 */
 	private int energy = Const.MAX_ENERGY;
+	/** 银两 */
+	private long money;
 	/** 背包控制器 */
 	private PackController packController;
 
@@ -31,7 +33,7 @@ public class Player implements IPlayer {
 	public Player(int energy, Map<Long, IProps> propsMap) {
 		super();
 		this.energy = energy;
-		this.packController = new PackController(propsMap);
+		this.packController = new PackController(this, propsMap);
 	}
 
 	@Override
@@ -64,6 +66,30 @@ public class Player implements IPlayer {
 	@Override
 	public PackController getPackController() {
 		return packController;
+	}
+
+	@Override
+	public long getMoney() {
+		return money;
+	}
+
+	@Override
+	public long gainMoney(long value) {
+		money += value;
+		// 通知客户端银两变更
+		logger.info("client notify:\tmoney " + money);
+		return money;
+	}
+
+	@Override
+	public long deductMoney(long value) throws IllegalStateException {
+		if (money < value) {
+			throw new IllegalStateException("银两不足！");
+		}
+		money -= value;
+		// 通知客户端银两变更
+		logger.info("client notify:\tmoney " + money);
+		return money;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.vivia.game.common.Const;
 import me.vivia.game.props.IProps;
 import me.vivia.game.props.Item;
 
@@ -21,13 +22,16 @@ public class PackController {
 
 	private Logger logger = LoggerFactory.getLogger(PackController.class);
 
+	/** 玩家 */
+	private IPlayer player;
 	/** 拥有的物品(道具和装备) */
 	private Map<Long, IProps> propsMap = new HashMap<Long, IProps>();
 	/** 拥有的道具 */
 	private List<Item> items = new ArrayList<Item>();
 
-	public PackController(Map<Long, IProps> propsMap) {
+	public PackController(IPlayer player, Map<Long, IProps> propsMap) {
 		super();
+		this.player = player;
 		this.propsMap = propsMap;
 		this.propsMap = propsMap;
 		for (IProps props : propsMap.values()) {
@@ -90,6 +94,11 @@ public class PackController {
 		if (newProps.getQuantity() <= 0) {
 			throw new IllegalStateException("物品数量为0或为负！");
 		}
+		// 对银两道具进行特殊处理
+		if (newProps.getTemplateId() == Const.TEMPLATE_ID_MONEY) {
+			player.gainMoney(newProps.getQuantity());
+			return -1;
+		}
 		if (newProps instanceof Item) { // 道具
 			long id = stackItems((Item) newProps);
 			if (id == newProps.getId()) { // 道具没有与现有道具堆叠
@@ -114,6 +123,19 @@ public class PackController {
 			return (Item) props;
 		}
 		return null;
+	}
+
+	/**
+	 * 生成指定的物品列表
+	 * 
+	 * @param array
+	 *            指定物品的模板编号及数量
+	 */
+	public void genSpecifiedProps(int[][] array) {
+		logger.info("=====");
+		for (int[] config : array) {
+			System.out.println(config[0] + "\t" + config[1]);
+		}
 	}
 
 }
