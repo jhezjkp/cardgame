@@ -18,3 +18,9 @@
 		(map #(int-array %) template-id-list) 
 		) ) )
 )
+
+(defn 生成随机物品[template-id-list]
+	(ItemEffect. (fn[target-obj] (.genSpecifiedProps target-obj 
+		(map #(int-array %) template-id-list) 
+		) ) )
+)

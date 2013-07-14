@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import me.vivia.game.props.CandidateT;
 import me.vivia.game.props.ItemT;
 
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class ScriptUtil {
 			RT.loadResourceScript("PropsDef.clj");
 			RT.loadResourceScript("ItemDef.clj");
 			RT.loadResourceScript("ItemTemplates.clj");
+			RT.loadResourceScript("CandidateTemplates.clj");
 			RT.loadResourceScript("ItemInit.clj");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -60,7 +62,23 @@ public class ScriptUtil {
 		try {
 			return (ItemT) RT.var(ns, "find-item-template").invoke(templateId);
 		} catch (Exception e) {
-			logger.error("查找道具时发生异常", e);
+			logger.error("查找道具模板时发生异常", e);
+			return null;
+		}
+	}
+
+	/**
+	 * 根据编号查找物品候选库
+	 * 
+	 * @param templateId
+	 * @return
+	 */
+	public static CandidateT findCandidateTemplate(int templateId) {
+		try {
+			return (CandidateT) RT.var(ns, "find-candidate-template")
+					.invoke(templateId);
+		} catch (Exception e) {
+			logger.error("查找物品候选库时发生异常", e);
 			return null;
 		}
 	}
