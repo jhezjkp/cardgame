@@ -1,8 +1,5 @@
 package me.vivia.game;
 
-import me.vivia.game.props.IProps;
-import me.vivia.game.props.Item;
-
 /**
  * 玩家接口
  * 
@@ -41,19 +38,10 @@ public interface IPlayer {
 	int deductEnergy(int value) throws IllegalStateException;
 
 	/**
-	 * 给玩家增加物品
+	 * 获取背包控制器
 	 * 
-	 * @param props
-	 * @return 如果物品整体堆叠到其他物品上了则返回堆叠的物品的实例编号，否则返回原物品实例编号
-	 */
-	long addProps(IProps props);
-
-	/**
-	 * 根据实例编号查找道具
-	 * 
-	 * @param itemId
 	 * @return
 	 */
-	Item findItem(long itemId);
+	PackController getPackController();
 
 }

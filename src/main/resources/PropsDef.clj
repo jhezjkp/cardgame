@@ -14,3 +14,4 @@
 (def 无目标 ItemUseTarget/None)
 (def 玩家 ItemUseTarget/Player)
 (def 卡牌 ItemUseTarget/Card)
+(def 背包 ItemUseTarget/Pack)

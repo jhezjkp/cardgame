@@ -75,35 +75,36 @@ public class PlayerTest {
 	@Test
 	public void testAddProps() {
 		// 测试增加道具
+		PackController packController = player.getPackController();
 		int templateId = 1;
 		int quantity = 1;
 		Item item = new Item(random.nextLong(), templateId, quantity);
-		long id = player.addProps(item);
+		long id = packController.addProps(item);
 		assertEquals(item.getId(), id);
-		Item existItem = player.findItem(item.getId());
+		Item existItem = packController.findItem(item.getId());
 		assertNotNull(existItem);
 		assertEquals(templateId, existItem.getTemplateId());
 		assertEquals(quantity, existItem.getQuantity());
 
 		item = new Item(random.nextLong(), templateId, quantity);
-		long newId = player.addProps(item);
+		long newId = packController.addProps(item);
 		assertEquals(id, newId);
-		existItem = player.findItem(id);
+		existItem = packController.findItem(id);
 		assertNotNull(existItem);
 		assertEquals(templateId, existItem.getTemplateId());
 		assertEquals(quantity + quantity, existItem.getQuantity());
 
 		int newQuantity = 100; // 茅台最大堆叠数为99
 		item = new Item(random.nextLong(), templateId, newQuantity);
-		newId = player.addProps(item);
+		newId = packController.addProps(item);
 		assertEquals(item.getId(), newId);
 		// 原来的2瓶茅台将再堆叠进97瓶
-		existItem = player.findItem(id);
+		existItem = packController.findItem(id);
 		assertNotNull(existItem);
 		assertEquals(templateId, existItem.getTemplateId());
 		assertEquals(99, existItem.getQuantity());
 		// 剩下3瓶无法堆叠到现有道具中
-		existItem = player.findItem(newId);
+		existItem = packController.findItem(newId);
 		assertNotNull(existItem);
 		assertEquals(templateId, existItem.getTemplateId());
 		assertEquals(3, existItem.getQuantity());

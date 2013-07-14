@@ -14,5 +14,7 @@ public enum ItemUseTarget {
 	Player,
 	/** 卡牌 */
 	Card,
+	/** 背包 */
+	Pack,
 
 }
