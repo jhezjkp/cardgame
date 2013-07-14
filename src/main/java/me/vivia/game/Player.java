@@ -77,7 +77,7 @@ public class Player implements IPlayer {
 	public long gainMoney(long value) {
 		money += value;
 		// 通知客户端银两变更
-		logger.info("client notify:\tmoney " + money);
+		logger.info("client notify:\tmoney changed\t" + money);
 		return money;
 	}
 
@@ -88,7 +88,7 @@ public class Player implements IPlayer {
 		}
 		money -= value;
 		// 通知客户端银两变更
-		logger.info("client notify:\tmoney " + money);
+		logger.info("client notify:\tmoney changed\t" + money);
 		return money;
 	}
 

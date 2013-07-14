@@ -65,4 +65,19 @@ public class ScriptUtil {
 		}
 	}
 
+	/**
+	 * 根据模板编号判断指定物品是否是道具
+	 * 
+	 * @param templateId
+	 * @return
+	 */
+	public static boolean isItem(int templateId) {
+		try {
+			return (Boolean) RT.var(ns, "is-item-template").invoke(templateId);
+		} catch (Exception e) {
+			logger.error("根据模板编号判断是否道具时发生异常", e);
+			return false;
+		}
+	}
+
 }

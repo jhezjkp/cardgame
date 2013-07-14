@@ -30,11 +30,25 @@ public class ItemTest {
 	}
 
 	@Test
-	public void testItemUse() {
+	public void testItemUse_1() {
+		// 测试茅台使用
 		Player player = new Player();
 		ItemT t = ScriptUtil.findItemTemplate(1);
 		t.getEffect().use(player);
-		assertEquals(Const.MAX_ENERGY+40, player.getEnergy());
+		assertEquals(Const.MAX_ENERGY + 40, player.getEnergy());
+	}
+
+	@Test
+	public void testItemUse_101() {
+		// 测试新手礼包使用
+		Player player = new Player();
+		ItemT t = ScriptUtil.findItemTemplate(101);
+		t.getEffect().use(player.getPackController());
+		assertEquals(10000, player.getMoney());
+		assertEquals(
+				5,
+				player.getPackController().getPropsQuantity(
+						Const.TEMPLATE_ID_WINE));
 	}
 
 }

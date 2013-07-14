@@ -8,6 +8,8 @@ import java.util.Map;
 import me.vivia.game.common.Const;
 import me.vivia.game.props.IProps;
 import me.vivia.game.props.Item;
+import me.vivia.game.utils.IdGenerator;
+import me.vivia.game.utils.ScriptUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,6 +114,22 @@ public class PackController {
 	}
 
 	/**
+	 * 获取指定道具的数量
+	 * 
+	 * @param templateId
+	 * @return
+	 */
+	public int getPropsQuantity(int templateId) {
+		int total = 0;
+		for (IProps props : propsMap.values()) {
+			if (props.getTemplateId() == templateId) {
+				total += props.getQuantity();
+			}
+		}
+		return total;
+	}
+
+	/**
 	 * 根据实例编号查找道具
 	 * 
 	 * @param itemId
@@ -131,11 +149,20 @@ public class PackController {
 	 * @param array
 	 *            指定物品的模板编号及数量
 	 */
-	public void genSpecifiedProps(int[][] array) {
-		logger.info("=====");
+	public void genSpecifiedProps(List<int[]> array) {
+		StringBuffer sb = new StringBuffer("获得【");
 		for (int[] config : array) {
-			System.out.println(config[0] + "\t" + config[1]);
+			int templateId = config[0];
+			int quantity = config[1];
+			if (ScriptUtil.isItem(templateId)) { // 道具
+				Item item = new Item(IdGenerator.getId(), templateId, quantity);
+				sb.append(" ").append(item.getName()).append("x")
+						.append(item.getQuantity());
+				addProps(item);
+			}
 		}
+		sb.append(" 】");
+		logger.info("client notify:\tpop message\t" + sb.toString());
 	}
 
 }

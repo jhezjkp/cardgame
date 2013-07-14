@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.Field;
-import java.util.Random;
 
 import me.vivia.game.common.Const;
 import me.vivia.game.props.Item;
+import me.vivia.game.utils.IdGenerator;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.After;
@@ -19,8 +19,6 @@ import org.junit.Test;
 public class PlayerTest {
 
 	private IPlayer player;
-	// id生成,凑合着用
-	private Random random = new Random();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -78,7 +76,7 @@ public class PlayerTest {
 		PackController packController = player.getPackController();
 		int templateId = 1;
 		int quantity = 1;
-		Item item = new Item(random.nextLong(), templateId, quantity);
+		Item item = new Item(IdGenerator.getId(), templateId, quantity);
 		long id = packController.addProps(item);
 		assertEquals(item.getId(), id);
 		Item existItem = packController.findItem(item.getId());
@@ -86,7 +84,7 @@ public class PlayerTest {
 		assertEquals(templateId, existItem.getTemplateId());
 		assertEquals(quantity, existItem.getQuantity());
 
-		item = new Item(random.nextLong(), templateId, quantity);
+		item = new Item(IdGenerator.getId(), templateId, quantity);
 		long newId = packController.addProps(item);
 		assertEquals(id, newId);
 		existItem = packController.findItem(id);
@@ -95,7 +93,7 @@ public class PlayerTest {
 		assertEquals(quantity + quantity, existItem.getQuantity());
 
 		int newQuantity = 100; // 茅台最大堆叠数为99
-		item = new Item(random.nextLong(), templateId, newQuantity);
+		item = new Item(IdGenerator.getId(), templateId, newQuantity);
 		newId = packController.addProps(item);
 		assertEquals(item.getId(), newId);
 		// 原来的2瓶茅台将再堆叠进97瓶
@@ -108,10 +106,10 @@ public class PlayerTest {
 		assertNotNull(existItem);
 		assertEquals(templateId, existItem.getTemplateId());
 		assertEquals(3, existItem.getQuantity());
-		
-		//增加银两
+
+		// 增加银两
 		int money = 10000;
-		item = new Item(random.nextLong(), Const.TEMPLATE_ID_MONEY, money);
+		item = new Item(IdGenerator.getId(), Const.TEMPLATE_ID_MONEY, money);
 		newId = packController.addProps(item);
 		assertEquals(-1, newId);
 		assertEquals(money, player.getMoney());

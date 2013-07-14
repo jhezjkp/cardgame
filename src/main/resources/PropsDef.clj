@@ -1,4 +1,4 @@
-;道具效果定义
+;道具效果定义等
 (ns me.vivia.game.props)
 
 ;引入java类定义
@@ -15,3 +15,9 @@
 (def 玩家 ItemUseTarget/Player)
 (def 卡牌 ItemUseTarget/Card)
 (def 背包 ItemUseTarget/Pack)
+
+;判断指定模板编号的物品是否是道具
+(defn is-item-template[template-id]
+	;道具模板在1-499之间
+	(and (>= template-id 1) (<= template-id 499))
+)

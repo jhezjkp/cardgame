@@ -13,6 +13,8 @@
 	(ItemEffect. (fn[target-obj] (.gainEnergy target-obj energy true)) )
 )
 
-(defn 生成固定物品[& template-id-list]
-	(ItemEffect. (fn[target-obj] (.genSpecifiedProps target-obj template-id-list)) )
+(defn 生成固定物品[template-id-list]
+	(ItemEffect. (fn[target-obj] (.genSpecifiedProps target-obj 
+		(map #(int-array %) template-id-list) 
+		) ) )
 )

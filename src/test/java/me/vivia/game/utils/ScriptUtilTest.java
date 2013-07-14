@@ -34,6 +34,7 @@ public class ScriptUtilTest {
 
 	@Test
 	public void testGetAllItemTemplates() {
+		//测试获取所有道具模板
 		List<ItemT> list = ScriptUtil.getAllItemTemplates();
 		assertNotNull(list);
 		assertTrue(list.size() >= 1);
@@ -44,10 +45,21 @@ public class ScriptUtilTest {
 
 	@Test
 	public void testFindItemTemplate() {
+		//测试查找道具模板
 		ItemT t = ScriptUtil.findItemTemplate(1);
 		assertNotNull(t);
 		assertEquals(1, t.getId());
 		assertEquals("茅台", t.getName());
+	}
+	
+	@Test
+	public void testIsItem() {
+		//测试指定模板编号是否道具模板
+		assertTrue(ScriptUtil.isItem(1));
+		assertTrue(ScriptUtil.isItem(10));
+		assertTrue(ScriptUtil.isItem(499));
+		assertEquals(false,ScriptUtil.isItem(500));
+		assertEquals(false,ScriptUtil.isItem(0));
 	}
 
 }
