@@ -130,4 +130,13 @@ public class Player implements IPlayer {
 		return newProps.getId();
 	}
 
+	@Override
+	public Item findItem(long itemId) {
+		IProps props = propsMap.get(itemId);
+		if (props != null && props instanceof Item) {
+			return (Item) props;
+		}
+		return null;
+	}
+
 }
