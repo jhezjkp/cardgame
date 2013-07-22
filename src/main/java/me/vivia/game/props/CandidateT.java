@@ -1,6 +1,5 @@
 package me.vivia.game.props;
 
-import java.util.List;
 
 /**
  * 候选库模板
