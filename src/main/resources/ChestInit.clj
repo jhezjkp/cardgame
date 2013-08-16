@@ -18,3 +18,8 @@
 
 ;道具模板缓存
 (def chest-templates-cache (gen-all-chest-templates chest-templates))
+
+;根据模板编号查找宝箱
+(defn find-chest-template[id]
+	(first (filter #(= id (.getId %)) chest-templates-cache))
+)

@@ -115,4 +115,20 @@ public class ScriptUtil {
 		}
 	}
 
+	/**
+	 * 根据编号查找宝箱模板
+	 * 
+	 * @param templateId
+	 * @return
+	 */
+	public static ChestT findChestTemplate(int templateId) {
+		try {
+			return (ChestT) RT.var(ns, "find-chest-template")
+					.invoke(templateId);
+		} catch (Exception e) {
+			logger.error("查找物品候选库时发生异常", e);
+			return null;
+		}
+	}
+
 }

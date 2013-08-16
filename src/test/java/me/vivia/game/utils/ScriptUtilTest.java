@@ -88,6 +88,8 @@ public class ScriptUtilTest {
 		config[0] = new int[] { 1, 0, 70 };
 		config[1] = new int[] { 2, 10000, 30 };
 		assertArrayEquals(config, t.getCandidateConfig());
+
+		assertEquals(t, ScriptUtil.findChestTemplate(t.getId()));
 	}
 
 }
