@@ -16,7 +16,7 @@ public class IdGenerator {
 	}
 
 	public static final long getId() {
-		return random.nextLong();
+		return Math.abs(random.nextLong());
 	}
 
 }
