@@ -15,3 +15,11 @@
 	(str "hello," name "!")
 )
 
+;一维int数组
+(println
+    (int-array [1 2 3])
+)
+
+;二维int数组
+(println (into-array (map int-array [[1 2] [3 4]])))
+(println (into-array (map int-array [[1 2 3] [3 4 5]])))

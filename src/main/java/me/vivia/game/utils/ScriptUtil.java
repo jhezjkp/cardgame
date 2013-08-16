@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import me.vivia.game.props.CandidateT;
+import me.vivia.game.props.ChestT;
 import me.vivia.game.props.ItemT;
 
 import org.slf4j.Logger;
@@ -32,6 +33,8 @@ public class ScriptUtil {
 			RT.loadResourceScript("ItemTemplates.clj");
 			RT.loadResourceScript("CandidateTemplates.clj");
 			RT.loadResourceScript("ItemInit.clj");
+			RT.loadResourceScript("ChestTemplates.clj");
+			RT.loadResourceScript("ChestInit.clj");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("xxxxxxxx脚本加载失败xxxxxxxxx");
@@ -75,8 +78,8 @@ public class ScriptUtil {
 	 */
 	public static CandidateT findCandidateTemplate(int templateId) {
 		try {
-			return (CandidateT) RT.var(ns, "find-candidate-template")
-					.invoke(templateId);
+			return (CandidateT) RT.var(ns, "find-candidate-template").invoke(
+					templateId);
 		} catch (Exception e) {
 			logger.error("查找物品候选库时发生异常", e);
 			return null;
@@ -95,6 +98,20 @@ public class ScriptUtil {
 		} catch (Exception e) {
 			logger.error("根据模板编号判断是否道具时发生异常", e);
 			return false;
+		}
+	}
+
+	/**
+	 * 获取所有的宝箱模板
+	 * 
+	 * @return
+	 */
+	public static List<ChestT> getAllChestTemplates() {
+		try {
+			return (List<ChestT>) RT.var(ns, "chest-templates-cache").deref();
+		} catch (Exception e) {
+			logger.error("获取所有宝箱模板时发生异常", e);
+			return Collections.EMPTY_LIST;
 		}
 	}
 

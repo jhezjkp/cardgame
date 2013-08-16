@@ -9,7 +9,7 @@ package me.vivia.game.props;
  */
 public class CandidateT {
 
-	/** 修行库编号 */
+	/** 候选库编号 */
 	private int id;
 	/** 隶属于该库的候选出产项 */
 	private CandidateOption[] options;
