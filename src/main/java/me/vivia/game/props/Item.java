@@ -42,14 +42,15 @@ public class Item extends Props {
 		quantity += value;
 		return quantity;
 	}
-	
+
 	/**
 	 * 减少数量
+	 * 
 	 * @param value
 	 * @return
 	 */
 	public int deductQuantity(int value) {
-		if(value>quantity) {
+		if (value > quantity) {
 			throw new IllegalStateException("道具数量不足！");
 		}
 		quantity -= value;
@@ -58,6 +59,12 @@ public class Item extends Props {
 
 	public int getMaxStackQuantity() {
 		return ((ItemT) template).getMaxStackQuantity();
+	}
+
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", quantity=" + quantity + ", name="
+				+ template.getName() + "]";
 	}
 
 }

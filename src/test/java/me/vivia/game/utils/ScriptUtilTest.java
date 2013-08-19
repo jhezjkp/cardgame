@@ -83,10 +83,10 @@ public class ScriptUtilTest {
 		assertEquals(1, t.getId());
 		assertEquals(ChestRandomScope.GlobalScope, t.getScope());
 		assertEquals(true, t.isMultiProduce());
-		// [[1 0 70] [2 10000 30]]
+		// [[1 0 70] [2 100 30]]
 		int[][] config = new int[2][3];
 		config[0] = new int[] { 1, 0, 70 };
-		config[1] = new int[] { 2, 10000, 30 };
+		config[1] = new int[] { 2, 100, 30 };
 		assertArrayEquals(config, t.getCandidateConfig());
 
 		assertEquals(t, ScriptUtil.findChestTemplate(t.getId()));

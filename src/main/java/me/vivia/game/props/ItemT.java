@@ -19,7 +19,8 @@ public class ItemT extends PropsT {
 	private ItemEffect effect;
 
 	public ItemT(int id, String name, String desc, Quality quality,
-			int maxStackQuantity, ItemUseTarget target, ItemEffect effect, int icon) {
+			int maxStackQuantity, ItemUseTarget target, ItemEffect effect,
+			int icon) {
 		super(id, name, desc, quality, icon);
 		this.target = target;
 		this.maxStackQuantity = maxStackQuantity;
@@ -36,6 +37,14 @@ public class ItemT extends PropsT {
 
 	public ItemEffect getEffect() {
 		return effect;
+	}
+
+	@Override
+	public String toString() {
+		return "ItemT [target=" + target + ", maxStackQuantity="
+				+ maxStackQuantity + ", id=" + id + ", name=" + name
+				+ ", desc=" + desc + ", quality=" + quality + ", icon=" + icon
+				+ "]";
 	}
 
 }
