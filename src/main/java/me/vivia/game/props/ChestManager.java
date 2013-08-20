@@ -33,8 +33,10 @@ public class ChestManager {
 			for (int[] config : template.getCandidateConfig()) {
 				// [候选库编号 出产总量(全局随机时)或保底出产数(玩家随机时) 出产机率]
 				map.put(new ChestKey(template.getId(), config[0]), 0);
+				// XXX 在实际游戏项目中，此处会加载宝箱的候选物品库的当日出产量
 			}
 		}
+		// XXX 在实际游戏项目中，此处会放一个定时器，每天0点重置各宝箱的候选物品库出产量
 	}
 
 	public static ChestManager getInstance() {
