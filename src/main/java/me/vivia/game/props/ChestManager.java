@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.vivia.game.common.ChestRandomScope;
 import me.vivia.game.utils.IdGenerator;
 import me.vivia.game.utils.RandomUtil;
 import me.vivia.game.utils.ScriptUtil;
@@ -88,7 +89,13 @@ public class ChestManager {
 		return null;
 	}
 
-	public List<Props> genProps(ChestT template) {
+	/**
+	 * 生成全服随机宝箱中的物品
+	 * 
+	 * @param template
+	 * @return
+	 */
+	private List<Props> genPropsInGlobalScopeChest(ChestT template) {
 		List<Props> result = new ArrayList<Props>();
 		// 计算机率总值，要去除不能再出产的物品库的出产机率
 		int totalOdds = 0;
@@ -97,7 +104,7 @@ public class ChestManager {
 		// 不限制出产的候选物品库
 		List<int[]> unlimitOptionList = new ArrayList<int[]>();
 		for (int[] config : template.getCandidateConfig()) {
-			// [候选库编号 出产总量(全局随机时)或保底出产数(玩家随机时) 出产机率]
+			// [候选库编号 出产总量(全局随机时)或安慰出产阈值(玩家随机时) 出产机率]
 			// 去除不能再出产的物品库的出产机率
 			if (config[1] == 0) {
 				// 不限制出产量的候选物品库
@@ -153,6 +160,94 @@ public class ChestManager {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * 生成玩家随机宝箱中的物品
+	 * 
+	 * @param template
+	 * @return
+	 */
+	private List<Props> genPropsInPlayerScopeChest(ChestT template,
+			Map<Integer, int[]> chestRecordMap) {
+		int data[] = chestRecordMap.get(template.getId());
+		if (data == null) {
+			data = new int[] { 0, 0 };
+		}
+		// 本次的第多少次开
+		int index = data[0] + 1;
+		List<Props> result = new ArrayList<Props>();
+		// 计算机率总值(保底出产库的机率总值)
+		int totalOdds = 0;
+		// 稀有出产候选物品库
+		int[] rareCandidate = null;
+		// 不限制出产的候选物品库
+		List<int[]> unlimitOptionList = new ArrayList<int[]>();
+		for (int[] config : template.getCandidateConfig()) {
+			// [候选库编号 出产总量(全局随机时)或安慰出产阈值(玩家随机时) 出产机率]
+			// 不限制出产量的候选物品库
+			if (config[1] == 0) {
+				unlimitOptionList.add(config);
+				totalOdds += config[2];
+			} else {
+				rareCandidate = config;
+			}
+		}
+		if (rareCandidate == null || unlimitOptionList.isEmpty()) {
+			String msg = "模板配置错误！！！";
+			logger.error("xxxxxx {}", msg);
+			throw new IllegalStateException(msg);
+		}
+		// 检查此次是否进行安慰出产
+		if (data[0] > 0 && index / rareCandidate[1] >= data[1]) {
+			result.add(genSpecificProps(rareCandidate[0]));
+			data[1] += 1; // 稀有出产计数器加1
+		} else if (RandomUtil.isHit(rareCandidate[2], 100)) {
+			result.add(genSpecificProps(rareCandidate[0]));
+			data[1] += 1; // 稀有出产计数器加1
+		}
+		// 是否出产多种物品
+		if (template.isMultiProduce()) { // 出产多个
+			// 再做其他保底库的随机
+			for (int[] config : unlimitOptionList) {
+				if (RandomUtil.isHit(config[2], 100)) {
+					result.add(genSpecificProps(config[0]));
+				}
+			}
+			// 判断是否有产出，如果没有，则从不限制产出的候选库中随机取一个作为最终产出
+			if (result.isEmpty()) {
+				int[] config = unlimitOptionList.get(RandomUtil
+						.randomInt(unlimitOptionList.size()));
+				result.add(genSpecificProps(config[0]));
+				ChestKey key = new ChestKey(template.getId(), config[0]);
+				map.put(key, map.get(key) + 1);
+			}
+		} else { // 出产单个
+			if (result.isEmpty()) {
+				int random = RandomUtil.randomInt(totalOdds);
+				int value = 0;
+				for (int[] config : unlimitOptionList) {
+					value += config[2];
+					if (random < value) {
+						result.add(genSpecificProps(config[0]));
+						break;
+					}
+				}
+			}
+		}
+		// 更新出产记录
+		data[0] = index;
+		chestRecordMap.put(template.getId(), data);
+		return result;
+	}
+
+	public List<Props> genProps(ChestT template,
+			Map<Integer, int[]> chestRecordMap) {
+		if (template.getScope() == ChestRandomScope.GlobalScope) {
+			return genPropsInGlobalScopeChest(template);
+		} else {
+			return genPropsInPlayerScopeChest(template, chestRecordMap);
+		}
 	}
 
 	/**

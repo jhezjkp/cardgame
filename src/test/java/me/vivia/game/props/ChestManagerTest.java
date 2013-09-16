@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -50,7 +51,7 @@ public class ChestManagerTest {
 	public void testGenProps_1() {
 		// 全服随机宝箱，多个产出
 		ChestT template = ScriptUtil.findChestTemplate(1);
-		List<Props> list = ChestManager.getInstance().genProps(template);
+		List<Props> list = ChestManager.getInstance().genProps(template, null);
 		assertNotNull(list);
 		assertEquals(2, list.size());
 		Props props = list.get(0);
@@ -67,7 +68,7 @@ public class ChestManagerTest {
 	public void testGenProps_2() {
 		// 全服随机宝箱，单个产出
 		ChestT template = ScriptUtil.findChestTemplate(2);
-		List<Props> list = ChestManager.getInstance().genProps(template);
+		List<Props> list = ChestManager.getInstance().genProps(template, null);
 		assertNotNull(list);
 		assertEquals(1, list.size());
 		Props props = list.get(0);
@@ -77,13 +78,33 @@ public class ChestManagerTest {
 	}
 
 	@Test
-	public void testGenProps_real() throws IllegalAccessException {
+	public void testGenProps_3() {
+		// 玩家随机宝箱，多个产出
+		ChestT template = ScriptUtil.findChestTemplate(3);
+		Map<Integer, int[]> chestRecordMap = new HashMap<Integer, int[]>();
+		List<Props> list = ChestManager.getInstance().genProps(template,
+				chestRecordMap);
+		assertNotNull(list);
+		assertEquals(2, list.size());
+		Props props = list.get(0);
+		assertEquals(1, props.getTemplateId()); // 茅台
+		assertEquals(3, props.getQuantity());
+		assertEquals(Quality.Blue, props.getQuality());
+		props = list.get(1);
+		assertEquals(99, props.getTemplateId()); // 银两
+		assertEquals(100, props.getQuantity());
+		assertEquals(Quality.Blue, props.getQuality());
+	}
+
+	@Test
+	public void testGenProps_real_1() throws IllegalAccessException {
 		// 实测，真实随机
 		RandomUtil.setRandom(new Random());
 		// 全服随机宝箱，多个产出
 		ChestT template = ScriptUtil.findChestTemplate(1);
 		for (int i = 0; i < 10000; i++) {
-			List<Props> list = ChestManager.getInstance().genProps(template);
+			List<Props> list = ChestManager.getInstance().genProps(template,
+					null);
 			assertNotNull(list);
 			assertFalse(list.isEmpty());
 			StringBuffer sb = new StringBuffer();
@@ -100,5 +121,31 @@ public class ChestManagerTest {
 		int count = map.get(new ChestManager.ChestKey(1, 2));
 		System.out.println("限制物品出产量：" + count);
 		assertTrue(count <= 100);
+
+	}
+
+	@Test
+	public void testGenProps_real_3() {
+		// 实测，真实随机
+		RandomUtil.setRandom(new Random());
+		// 宝箱3中的候选库1每100次安慰出产一次
+		ChestT template = ScriptUtil.findChestTemplate(3);
+		Map<Integer, int[]> chestRecordMap = new HashMap<Integer, int[]>();
+		chestRecordMap.put(3, new int[] { 99, 0 }); // 已开99次，未有过稀有出产
+		List<Props> list = ChestManager.getInstance().genProps(template,
+				chestRecordMap);
+		Props props = list.get(0);
+		boolean result = false;
+		if (2 == props.getTemplateId()) {
+			// 培养丹
+			assertEquals(1, props.getQuantity());
+			assertEquals(Quality.Purple, props.getQuality());
+			result = true;
+		} else if (1 == props.getTemplateId()) {
+			assertEquals(3, props.getQuantity());
+			assertEquals(Quality.Blue, props.getQuality());
+			result = true;
+		}
+		assertTrue(result);
 	}
 }

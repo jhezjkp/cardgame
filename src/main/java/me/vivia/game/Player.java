@@ -25,15 +25,20 @@ public class Player implements IPlayer {
 	private long money;
 	/** 背包控制器 */
 	private PackController packController;
+	/** 玩家随机宝箱开箱记录 key-宝箱编号 value-[0]已开的宝箱数 [1]稀有出产数 */
+	private Map<Integer, int[]> chestRecordMap;
 
 	public Player() {
-		this(Const.MAX_ENERGY, new HashMap<Long, IProps>());
+		this(Const.MAX_ENERGY, new HashMap<Long, IProps>(),
+				new HashMap<Integer, int[]>());
 	}
 
-	public Player(int energy, Map<Long, IProps> propsMap) {
+	public Player(int energy, Map<Long, IProps> propsMap,
+			Map<Integer, int[]> chestRecordMap) {
 		super();
 		this.energy = energy;
 		this.packController = new PackController(this, propsMap);
+		this.chestRecordMap = chestRecordMap;
 	}
 
 	@Override
